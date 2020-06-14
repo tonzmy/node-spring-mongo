@@ -1,0 +1,39 @@
+p.path {
+  color: red;
+}
+
+div.menu {
+  padding: 5px
+}
+
+Nav.Link {
+  color: green;
+}
+
+img {
+  width: 20px;
+  height: 20px;
+}
+
+i.fa-circle {
+  color: #ee5253;
+}
+strong#number {
+  color: white;
+}
+
+span.fa-stack {
+    font-size: 8px;
+    vertical-align: top;
+    margin-left: 3px;
+}
+
+div.menu-dropdown-numbers {
+    position: relative;
+}
+
+div.menu-dropdown-numbers > span.fa-stack {
+    position: absolute;
+    top:0px;
+    right: 0px;
+}

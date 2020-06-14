@@ -1,0 +1,15 @@
+div.ice-options-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-gap: 10px;
+}
+
+div.sugar-options-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-gap: 10px;
+}
+
+div.inline-options-selector label{
+    font-size: 13px;
+}

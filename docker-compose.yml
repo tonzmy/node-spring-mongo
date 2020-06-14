@@ -1,0 +1,37 @@
+version: "3.5"
+
+services:
+    frontend:
+        build .
+        container_name: frontend
+        networks: 
+            - node-spring
+               
+    backend:
+        build: ./Spring.Dockerfile
+        container_name: backend
+        ports:
+            - target: 8080
+              published: 8080
+        networks: 
+            - spring-mongo
+            - node-spring
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        ports:
+            - target: 27017
+              published: 27017
+        volumes:
+            - type: volume
+              source: mongodb_vol
+              target: /data/db
+        networks: 
+            - spring-mongo
+
+volumes:
+    mongodb_vol: 
+networks: 
+    spring-mongo:
+    node-spring:
+    

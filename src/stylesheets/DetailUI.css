@@ -1,0 +1,30 @@
+
+div.detail-page {
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 22px;
+    width: 90%;
+    margin: auto;
+}
+
+div.detail-image {
+    margin: 5%;
+}
+
+
+div.detail-info {
+    width: 100%;
+    height: 100%;
+    padding: 5%;
+
+}
+
+div.detail-info h3 {
+    text-align: center;
+}
+
+button.detail-info-add {
+    margin-top: 20px;
+    width: 100%;
+}

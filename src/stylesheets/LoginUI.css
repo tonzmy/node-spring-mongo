@@ -1,0 +1,67 @@
+div.login-form Button {
+  margin-top: 10px;
+  width: 380px;
+}
+
+div.login-form {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    padding: 10px;
+}
+
+div.login-form h1 {
+    padding: 10px;
+}
+
+div.input-with-text {
+    display: block;
+    position: relative;
+    margin: 20px 0px;
+}
+
+div.input-with-text input {
+    display: block;
+    width: 380px;
+    height: 62px;
+    padding: 18px 17px 0px;
+    border-radius: 12px;
+    border-color: gray;
+}
+
+/* div.input-with-text span {
+    position: absolute;
+    top: 3px;
+    font-size: 18px;
+    padding: 15px 17px 0px;
+    transition: 0.3s;
+} */
+
+div.input-with-text input:focus + span.hasNoValue {
+    transform: translateY(-12px);
+    font-size:15px;
+}
+
+div.input-with-text span.hasNoValue {
+  position: absolute;
+  top: 3px;
+  font-size: 18px;
+  padding: 15px 17px 0px;
+  transition: 0.2s;
+}
+
+div.input-with-text span.hasValue {
+  position: absolute;
+  top: 3px;
+  font-size: 15px;
+  transform: translateY(-12px);
+  padding: 15px 17px 0px;
+}
+
+input:focus {
+    outline:none;
+    border:2px solid #427fe3;
+    -webkit-box-shadow: 0px 0px 4px 0px #427fe3;
+    box-shadow: 0px 0px 4px 0px #427fe3;
+ }

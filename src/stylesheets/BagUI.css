@@ -1,0 +1,49 @@
+div.bag-page-wrapper {
+    max-width: 1000px;
+    margin: auto;
+}
+
+div.bag-page-wrapper h1 {
+    text-align: center;
+}
+
+div.bag-item-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 17px;
+    margin: 50px 0;
+}
+
+div.bag-item-image-name {
+    position: relative;
+    height: 320px;
+    text-align: center;
+    width: 320px;
+    background-color: #ccd2db;
+    margin: 0 auto;
+}
+
+div.bag-item-image-name p{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+}
+
+div.bag-item-detail {
+    margin: auto;
+}
+
+button.bag-item-delete {
+  width: 100%;
+}
+
+div.bag-item-detail h4 {
+    margin: 20px 0px;
+}
+
+div.bag-item-detail h5 {
+    margin: 15px 0px;
+}
