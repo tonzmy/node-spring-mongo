@@ -10,6 +10,8 @@ services:
             - node-spring
         environment:
             HOST: backend
+        depends_on: 
+            -backend
     backend:
         build: ./spring
         container_name: backend
