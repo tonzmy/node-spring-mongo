@@ -5,16 +5,14 @@ services:
         build: ./node
         container_name: frontend
         ports:
-            - target: 3000
-              published: 3000
+            - "3000:3000"
         networks: 
             - node-spring
     backend:
         build: ./spring
         container_name: backend
         ports:
-            - target: 8080
-              published: 8080
+            - "8080:8080"
         networks: 
             - spring-mongo
             - node-spring
@@ -22,8 +20,7 @@ services:
         image: mongo:latest
         container_name: mongodb
         ports:
-            - target: 27017
-              published: 27017
+            - "27017:27017"
         volumes:
             - type: volume
               source: mongodb_vol
