@@ -23,14 +23,14 @@ class LoginUI extends Component {
       this.props.history.replace("/")
     }
   }
-
-  componentDidUpdate(prevProps) {
-    const {status} = this.props
-    if (status == 0) {
-      const {_password} = this.refs
-      _password.select()
-    }
-  }
+  //
+  // componentDidUpdate(prevProps) {
+  //   const {status} = this.props
+  //   if (status == 0) {
+  //     const {_password} = this.refs
+  //     _password.select()
+  //   }
+  // }
 
   submit(e) {
     const { _username, _password } = this.refs

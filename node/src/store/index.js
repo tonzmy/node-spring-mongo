@@ -3,6 +3,7 @@ import {isLogin, products, favoriates, bag} from './reducers'
 import stateData from '../data/initialState'
 import thunk from 'redux-thunk'
 import Cookies from 'universal-cookie'
+import fetch from 'isomorphic-fetch'
 
 const cookies = new Cookies()
 
@@ -51,6 +52,11 @@ const saver = store => next => action => {
 //       JSON.parse(JSON.stringify(cookies.get("redux-store"))) :
 //       initialState
 //   )
+//
+// const fetchProductsData = () => {
+//   fetch('/data/api/')
+// }
+
 
 const getState = (initialState) => {
   let state;
@@ -81,7 +87,7 @@ const getState = (initialState) => {
   // BUG FIXED: inital state can be loaded (name the import file as different name)
   const storeFactory = (initialState = stateData) =>
     applyMiddleware(...[logger, saver, thunk])(createStore)(
-      combineReducers({isLogin, products, favoriates, bag}),
+      combineReducers({isLogin, favoriates, bag}),
         getState(initialState)
     )
 

@@ -10,14 +10,19 @@ class HomeUI extends Component {
     super(props)
     // const {status}  = this.props
     // console.log("constriuctor", status)
+    this.state = {
+      products: [],
+      isLoading: true
+    }
     this.submit = this.submit.bind(this)
   }
 
-  // componentDidMount() {
-  //   const {status} = this.props
-  //   console.log("did mount", status)
-  //   console.log("cookie", cookies.get('_uuid'))
-  // }
+  componentDidMount() {
+    this.setState({isLoading: true})
+    fetch("/data/api/product/types")
+      .then(response=> response.json())
+      .then(data => this.setState({products: data, isLoading: false}))
+  }
 
   // componentDidUpdate(nextProps) {
   //   const {status} = nextProps
@@ -30,9 +35,10 @@ class HomeUI extends Component {
     onUserLogout()
   }
   render() {
-    const {products} = this.props
+    const {products, isLoading} = this.state
     return (
-      <div className="home-wrapper">
+      (isLoading == false) ?
+      (<div className="home-wrapper">
         <div className="home-page">
           <div className="home-header">
             <h1>Welcome!</h1>
@@ -40,21 +46,17 @@ class HomeUI extends Component {
           <div className="home-page-product">
             {
               products.map((product, i) => (
-                <HomePageProductUI key={i} name={product[0]} />
+                <HomePageProductUI key={i} name={product} />
               ))
             }
           </div>
           </div>
-        </div>
+        </div>):
+        null
     )
   }
 }
 
-
-
-// HomeUI.defaultProps = {
-//   products = [ [ 'tea' ], [ 'bubble tea' ], [ 'fruit tea' ] ]
-// }
 
 export default HomeUI
 //

@@ -3,6 +3,7 @@ import C from '../constants'
 import {v4} from 'uuid'
 import fs from 'fs'
 import path from 'path'
+import fetch from 'isomorphic-fetch'
 
 let rawdata = fs.readFileSync(path.join(__dirname, '../data/session.json'))
 let sessions = JSON.parse(rawdata)
@@ -73,41 +74,109 @@ router.post("/api/login", (req, res) => {
     res.redirect("/")
     return
   } else {
-    if (req.body.username === req.body.password) {
-      let token = v4()
-      let obj = {}
-      obj[req.body.username] = token
-      let username = req.body.username
-      let local = sessions["session"].filter(c => Object.keys(c)[0] == req.body.username)
-      if (local.length != 0) {
-        sessions["session"] = sessions["session"].map(s => {
-          if (Object.keys(s)[0] == req.body.username)
-            {
-              return obj
+    let username = req.body.username
+    let password = req.body.password
+    let data = JSON.stringify({username, password})
+    // let csrfToken = req.cookies["XSRF-TOKEN"]
+    // console.log("csrfToken:", csrfToken)
+      // const response = async() => {
+      //   return (await fetch('http://localhost:8080/data/api/user/authentication', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({username, password})
+      // })).json()
+      // }
+      // const res =  response()
+      // console.log(res)
+
+      fetch('http://localhost:8080/data/api/user/authentication', {
+      method: 'POST',
+      headers: {
+        // 'X-CSRF-TOKEN': csrfToken,
+        'Content-Type': 'application/json'
+      },
+      // credentials: 'include',  
+      body: JSON.stringify({username, password})
+    })
+      .then(response => response.json())
+      .then(resp => {
+        console.log(resp)
+        if (resp == true) {
+              let token = v4()
+              let obj = {}
+              obj[req.body.username] = token
+              let username = req.body.username
+              let local = sessions["session"].filter(c => Object.keys(c)[0] == req.body.username)
+              if (local.length != 0) {
+                sessions["session"] = sessions["session"].map(s => {
+                  if (Object.keys(s)[0] == req.body.username)
+                    {
+                      return obj
+                    } else {
+                      return s
+                    }
+                  })
+              } else {
+                sessions["session"].push(obj)
+              }
+              // sessions["session"][token] = req.body.username
+              writeFile()
+              token = token + "&" + `${req.body.username}`
+              res.cookie('_uuid', token, { httpOnly: false, maxAge: 900000 })
+              res.status(200).json({
+                type: C.LOGIN,
+                isLogin: token
+              })
             } else {
-              return s
+              res.status(200).json({
+                type: C.LOGIN,
+                isLogin: 0
+              })
             }
           })
-      } else {
-        sessions["session"].push(obj)
+        }
+        return
       }
-      // sessions["session"][token] = req.body.username
-      writeFile()
-      token = token + "&" + `${req.body.username}`
-      res.cookie('_uuid', token, { httpOnly: false, maxAge: 900000 })
-      res.status(200).json({
-        type: C.LOGIN,
-        isLogin: token
-      })
-    } else {
-      res.status(200).json({
-        type: C.LOGIN,
-        isLogin: 0
-      })
-    }
-  }
-  }
-)
+      )
+
+
+//     if (req.body.username === req.body.password) {
+//       let token = v4()
+//       let obj = {}
+//       obj[req.body.username] = token
+//       let username = req.body.username
+//       let local = sessions["session"].filter(c => Object.keys(c)[0] == req.body.username)
+//       if (local.length != 0) {
+//         sessions["session"] = sessions["session"].map(s => {
+//           if (Object.keys(s)[0] == req.body.username)
+//             {
+//               return obj
+//             } else {
+//               return s
+//             }
+//           })
+//       } else {
+//         sessions["session"].push(obj)
+//       }
+//       // sessions["session"][token] = req.body.username
+//       writeFile()
+//       token = token + "&" + `${req.body.username}`
+//       res.cookie('_uuid', token, { httpOnly: false, maxAge: 900000 })
+//       res.status(200).json({
+//         type: C.LOGIN,
+//         isLogin: token
+//       })
+//     } else {
+//       res.status(200).json({
+//         type: C.LOGIN,
+//         isLogin: 0
+//       })
+//     }
+//   }
+//   }
+// )
 
 router.get("/api/logout", (req, res) => {
   if (req.cookies["_uuid"] == null || req.cookies["_uuid"] == undefined) {

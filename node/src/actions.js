@@ -11,7 +11,7 @@ const logResult = result => {
 }
 
 const fetchThenDispatch = (dispatch, url, method, body) =>
-  fetch(url, {method, body, headers: { 'Content-Type': 'application/json' , 'credentials': "include"}})
+  fetch(url, {method, body, headers: { 'Content-Type': 'application/json' }})
     .then(parseResponse)
     .then(logResult)
     .then(dispatch)

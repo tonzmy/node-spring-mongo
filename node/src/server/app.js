@@ -1,4 +1,5 @@
 import express from 'express'
+import { createProxyMiddleware, Filter, Options, RequestHandler } from 'http-proxy-middleware';
 import path from 'path'
 import bodyParser from 'body-parser'
 import fs from 'fs'
@@ -75,5 +76,6 @@ export default express()
   .use(logger)
   .use(fileAssets)
   .use(cookieParser())
+  .use('/data', createProxyMiddleware({target: "http://localhost:8080", changeOrigin: true}))
   .use(api)
   .use(respond)

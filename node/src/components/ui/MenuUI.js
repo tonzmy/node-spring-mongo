@@ -10,109 +10,97 @@ import bag from "../../../src/images/icons/bag.svg"
 
 const cookies = new Cookies()
 
-const MenuUI = ({status, selected, products, favoriatesNumber, bagNumber, onUserLogout=f=>f}) => {
-  const submit = (e) => {
+class MenuUI extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {products: [], isLoading: true}
+    this.submit = this.submit.bind(this)
+  }
+  submit(e) {
+    const {onUserLogout} = this.props
     e.preventDefault()
     onUserLogout()
   }
-  return (
-    <div className="menu">
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto">
-        <Nav.Link href="/">Home</Nav.Link>
+  componentDidMount() {
+    this.setState({isLoading: true})
+    fetch("/data/api/product/types")
+      .then(response=> response.json())
+      .then(data => this.setState({products: data, isLoading: false}))
+  }
+
+
+  render() {
+      const {status, selected, favoriatesNumber, bagNumber, onUserLogout} = this.props
+      const {products, isLoading} = this.state
+    return (
+      <div className="menu">
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+          <Nav.Link href="/">Home</Nav.Link>
+            {
+              (isLoading == true)?
+              null :
+              (products.map((product, i) =>
+                <Nav.Link key={i} href={"/"+product.toLowerCase().replace(" ", "-")}>{product.toUpperCase()}</Nav.Link>
+              ))
+            }
+          </Nav>
+        </Navbar.Collapse>
+        <div className="menu-dropdown-numbers">
+        <NavDropdown title="Me" id="collasible-nav-dropdown" alignRight>
+        <NavDropdown.Item href="/bag">
+          Bag
           {
-            products.map((product, i) =>
-              <Nav.Link key={i} href={"/"+product[0].toLowerCase().replace(" ", "-")}>{product[0].toUpperCase()}</Nav.Link>
-            )
-          }
-        </Nav>
-      </Navbar.Collapse>
-      <div className="menu-dropdown-numbers">
-      <NavDropdown title="Me" id="collasible-nav-dropdown" alignRight>
-      <NavDropdown.Item href="/bag">
-        Bag
-        {
-          (bagNumber !== 0)?
-            (<span className="fa-stack">
-              <i className="fas fa-circle fa-stack-2x"></i>
-              <strong id="number" className="fa-stack-1x">{bagNumber}</strong>
-            </span>) :
-            null
-        }
-      </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="/favoriates">
-          Favoriates
-          {
-            (favoriatesNumber !== 0)?
+            (bagNumber !== 0)?
               (<span className="fa-stack">
                 <i className="fas fa-circle fa-stack-2x"></i>
-                <strong id="number" className="fa-stack-1x">{favoriatesNumber}</strong>
+                <strong id="number" className="fa-stack-1x">{bagNumber}</strong>
               </span>) :
               null
           }
         </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="/accounts">Accounts</NavDropdown.Item>
-        <NavDropdown.Divider />
-        {
-          (status != -1 && status != 0)?
-          <NavDropdown.Item onClick={submit}>Logout</NavDropdown.Item> :
-          <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-        }
-      </NavDropdown>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href="/favoriates">
+            Favoriates
+            {
+              (favoriatesNumber !== 0)?
+                (<span className="fa-stack">
+                  <i className="fas fa-circle fa-stack-2x"></i>
+                  <strong id="number" className="fa-stack-1x">{favoriatesNumber}</strong>
+                </span>) :
+                null
+            }
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href="/accounts">Accounts</NavDropdown.Item>
+          <NavDropdown.Divider />
+          {
+            (status != -1 && status != 0)?
+            <NavDropdown.Item onClick={this.submit}>Logout</NavDropdown.Item> :
+            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+          }
+        </NavDropdown>
 
-        {(parseInt(bagNumber) + parseInt(favoriatesNumber) !== 0) ?
-          (<span className="fa-stack">
-            <i className="fas fa-circle fa-stack-2x"></i>
-            <strong id="number" className="fa-stack-1x">{parseInt(bagNumber) + parseInt(favoriatesNumber)}</strong>
-          </span>) :
-          null
-        }
+          {(parseInt(bagNumber) + parseInt(favoriatesNumber) !== 0) ?
+            (<span className="fa-stack">
+              <i className="fas fa-circle fa-stack-2x"></i>
+              <strong id="number" className="fa-stack-1x">{parseInt(bagNumber) + parseInt(favoriatesNumber)}</strong>
+            </span>) :
+            null
+          }
+        </div>
+      </Navbar>
       </div>
-    </Navbar>
-    <p className="path">{selected}</p>
-    <p>{status}</p>
-    </div>
-  )
+    )
+  }
 }
 
-
-// const MenuUI = ({selected}) =>
-//   <div className="menu">
-//     <Nav variant="pills" justify activeKey={selected}>
-//       <Nav.Item>
-//         <Nav.Link href="/" >
-//           Home
-//         </Nav.Link>
-//       </Nav.Item>
-//       <Nav.Item>
-//         <Nav.Link href="/bubble-tea">
-//           Bubble Tea
-//         </Nav.Link>
-//       </Nav.Item>
-//       <Nav.Item>
-//         <Nav.Link href="/fruit-tea">
-//           Fruit Tea
-//         </Nav.Link>
-//       </Nav.Item>
-//       <NavDropdown title="shopping cart" id="nav-dropdown">
-//         <NavDropdown.Item href="/bag">Bag</NavDropdown.Item>
-//         <NavDropdown.Divider />
-//         <NavDropdown.Item href="/favoriates">Favoriates</NavDropdown.Item>
-//         <NavDropdown.Divider />
-//         <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
-//         <NavDropdown.Divider />
-//         <NavDropdown.Item href="/accounts">Accounts</NavDropdown.Item>
-//         <NavDropdown.Divider />
-//         <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-//       </NavDropdown>
-//     </Nav>
-//     <p>{selected}</p>
-//   </div>
+MenuUI.defaultProps = {
+  onUserLogout: f=>f
+}
 
 export default MenuUI
