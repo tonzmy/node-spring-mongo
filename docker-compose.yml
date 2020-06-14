@@ -8,6 +8,8 @@ services:
             - "3000:3000"
         networks: 
             - node-spring
+        environment:
+            HOST: backend
     backend:
         build: ./spring
         container_name: backend

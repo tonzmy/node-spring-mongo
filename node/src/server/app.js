@@ -70,12 +70,13 @@ const respond = ({url}, res) =>
     buildHTMLPage()
   )
 
+var hostName = (process.env.HOST) ? ''+ process.env.HOST : 'localhost'
 
 export default express()
   .use(bodyParser.json())
   .use(logger)
   .use(fileAssets)
   .use(cookieParser())
-  .use('/data', createProxyMiddleware({target: "http://localhost:8080", changeOrigin: true}))
+  .use('/data', createProxyMiddleware({target: `${hostName}:8080`, changeOrigin: true}))
   .use(api)
   .use(respond)
