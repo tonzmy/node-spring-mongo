@@ -6,7 +6,6 @@ services:
         container_name: frontend
         networks: 
             - node-spring
-               
     backend:
         build: ./Spring.Dockerfile
         container_name: backend
