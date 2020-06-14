@@ -2,12 +2,12 @@ version: "3.5"
 
 services:
     frontend:
-        build .
+        build ./node
         container_name: frontend
         networks: 
             - node-spring
     backend:
-        build: ./Spring.Dockerfile
+        build: ./spring
         container_name: backend
         ports:
             - target: 8080
