@@ -4,6 +4,9 @@ services:
     frontend:
         build: ./node
         container_name: frontend
+        ports:
+            - target: 3000
+              published: 3000
         networks: 
             - node-spring
     backend:
