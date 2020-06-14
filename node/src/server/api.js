@@ -90,8 +90,8 @@ router.post("/api/login", (req, res) => {
       // }
       // const res =  response()
       // console.log(res)
-
-      fetch('http://localhost:8080/data/api/user/authentication', {
+      const hostName = (process.env.HOST) ? ''+ process.env.HOST : 'localhost'
+      fetch(`http://${hostName}:8080/data/api/user/authentication`, {
       method: 'POST',
       headers: {
         // 'X-CSRF-TOKEN': csrfToken,

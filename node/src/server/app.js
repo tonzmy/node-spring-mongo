@@ -70,7 +70,7 @@ const respond = ({url}, res) =>
     buildHTMLPage()
   )
 
-var hostName = (process.env.HOST) ? ''+ process.env.HOST : 'localhost'
+const hostName = (process.env.HOST) ? ''+ process.env.HOST : 'localhost'
 
 export default express()
   .use(bodyParser.json())
