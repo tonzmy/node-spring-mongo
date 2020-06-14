@@ -15,16 +15,16 @@ services:
     backend:
         build: ./spring
         container_name: backend
-        ports:
-            - "8080:8080"
+        expose:
+            - "8080"
         networks: 
             - spring-mongo
             - node-spring
     mongodb:
         image: mongo:latest
         container_name: mongodb
-        ports:
-            - "27017:27017"
+        expose:
+            - "27017"
         volumes:
             - type: volume
               source: mongodb_vol
