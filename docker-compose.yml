@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
     frontend:
-        build ./node
+        build: ./node
         container_name: frontend
         networks: 
             - node-spring
