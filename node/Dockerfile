@@ -8,6 +8,4 @@ RUN npm install -D
 
 COPY . .
 
-EXPOSE 3000
-
 ENTRYPOINT ["npm", "start"]
