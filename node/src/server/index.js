@@ -9,3 +9,6 @@ app.set('port', process.env.PORT || 3000)
         app.get('port'),
         () => console.log(`tea running at 'http://localhost:${app.get('port')}'`)
     )
+
+
+console.log(`host name: ${process.env.HOST}`)
