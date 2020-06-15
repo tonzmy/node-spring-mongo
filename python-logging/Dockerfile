@@ -6,4 +6,4 @@ COPY . .
 
 RUN pip install pika
 
-ENTRYPOINT ["python", "receive_logs.py", ">>", "logs.txt"]
+CMD ["python", "receive_logs.py", ">>", "logs.txt"]
