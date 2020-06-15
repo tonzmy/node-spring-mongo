@@ -10,14 +10,48 @@ import { renderToString } from 'react-dom/server'
 import api from './api'
 import App from '../components/App'
 var cookieParser = require('cookie-parser')
+var amqp = require('amqplib/callback_api')
 // import storeFactory from '../store'
 
 // const store = storeFactory()
 const fileAssets = express.static(path.join(__dirname, '../../dist/assets'))
 const staticCSS = fs.readFileSync(path.join(__dirname, '../../dist/assets/styles.css'))
+const hostName = (process.env.HOST) ? ''+ process.env.HOST : 'localhost'
+const mqHost = (process.env.MQ) ? ''+ process.env.MQ : 'rabbitmq'
 
 const logger = (req, res, next) => {
   console.log(`${req.method} request for ${req.url}`)
+  next()
+}
+// add support of rabbitMQ
+const rabbitMQ = (req, res, next) => {
+  amqp.connect(`amqp://${hostName}`, (error0, connection) => {
+    if (error0) {
+      console.log(error0);
+    }
+
+    connection.createChannel((error1, channel) => {
+      if (error1) {
+        console.log(error1);
+      }
+
+      var exchange = "logs";
+      var msg = `[INFO] ${req.method} request for ${req.url}`;
+
+      channel.assertExchange(exchange, 'fanout', {
+        durable: false
+      });
+
+      channel.publish(exchange, '', Buffer.from(msg));
+      console.log("[rabbitmq]: sent logs successfully");
+    });
+
+    setTimeout(() => {
+      connection.close();
+      console.log("[rabbitmq]: Timeout");
+    })
+
+  });
   next()
 }
 
@@ -70,11 +104,12 @@ const respond = ({url}, res) =>
     buildHTMLPage()
   )
 
-const hostName = (process.env.HOST) ? ''+ process.env.HOST : 'localhost'
+
 
 export default express()
   .use(bodyParser.json())
   .use(logger)
+  .user(rabbitMQ)
   .use(fileAssets)
   .use(cookieParser())
   .use('/data', createProxyMiddleware({target: `http://${hostName}:8080`, changeOrigin: true}))

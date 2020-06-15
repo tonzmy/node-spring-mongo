@@ -8,8 +8,10 @@ services:
             - "3000:3000"
         networks: 
             - node-spring
+            - node-mq
         environment:
             HOST: backend
+            MQ: rabbitmq
         depends_on: 
             - backend
     backend:
@@ -31,10 +33,29 @@ services:
               target: /data/db
         networks: 
             - spring-mongo
-
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbitmq
+        expose:
+            - "5672"
+            - "15672"
+        networks: 
+            - node-mq
+            - mq-logger
+    logger:
+        build: ./python-logging
+        container_name: logger
+        environment:
+            HOST: rabbitmq
+        networks:
+            - logging
+            - mq-logger
 volumes:
     mongodb_vol: 
 networks: 
     spring-mongo:
     node-spring:
+    node-mq:
+    mq-logger:
+
     
