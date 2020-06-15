@@ -50,7 +50,7 @@ const rabbitMQ = (req, res, next) => {
     setTimeout(() => {
       connection.close();
       console.log("[rabbitmq]: Timeout");
-    })
+    }, 1000);
 
   });
   next()

@@ -14,6 +14,7 @@ services:
             MQ: rabbitmq
         depends_on: 
             - backend
+            - rabbitmq
     backend:
         build: ./spring
         container_name: backend
