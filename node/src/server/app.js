@@ -110,7 +110,7 @@ const respond = ({url}, res) =>
 export default express()
   .use(bodyParser.json())
   .use(logger)
-  .user(rabbitMQ)
+  .use(rabbitMQ)
   .use(fileAssets)
   .use(cookieParser())
   .use('/data', createProxyMiddleware({target: `http://${hostName}:8080`, changeOrigin: true}))
