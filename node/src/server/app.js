@@ -23,9 +23,10 @@ const logger = (req, res, next) => {
   console.log(`${req.method} request for ${req.url}`)
   next()
 }
+
 // add support of rabbitMQ
 const rabbitMQ = (req, res, next) => {
-  amqp.connect(`amqp://${hostName}`, (error0, connection) => {
+  amqp.connect(`amqp://${mqHost}`, (error0, connection) => {
     if (error0) {
       console.log(error0);
     }
