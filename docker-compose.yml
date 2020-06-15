@@ -48,6 +48,7 @@ services:
         container_name: logger
         environment:
             HOST: rabbitmq
+        restart: on-failure
         networks:
             - mq-logger
         depends_on: 
