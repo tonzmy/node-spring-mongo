@@ -50,6 +50,8 @@ services:
             HOST: rabbitmq
         networks:
             - mq-logger
+        depends_on: 
+            - rabbitmq
 volumes:
     mongodb_vol: 
 networks: 
