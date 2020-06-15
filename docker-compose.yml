@@ -48,7 +48,6 @@ services:
         environment:
             HOST: rabbitmq
         networks:
-            - logging
             - mq-logger
 volumes:
     mongodb_vol: 
