@@ -12,9 +12,9 @@ services:
         environment:
             HOST: backend
             MQ: rabbitmq
-        depends_on: 
+        depends_on:
+            - rabbitmq 
             - backend
-            - rabbitmq
     backend:
         build: ./spring
         container_name: backend
@@ -51,7 +51,7 @@ services:
         networks:
             - mq-logger
         depends_on: 
-            - rabbitmq
+            - frontend
 volumes:
     mongodb_vol: 
 networks: 
