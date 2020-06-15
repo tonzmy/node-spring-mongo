@@ -6,4 +6,4 @@ COPY . .
 
 RUN pip install pika
 
-CMD ["/start.sh"]
+CMD ["python", "receive_logs.py", ">>", "logs.txt"]
