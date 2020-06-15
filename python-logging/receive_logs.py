@@ -22,7 +22,7 @@ try:
     def callback(ch, method, properties, body):
         print(body)
         with open ('logs.txt', 'a') as f:
-            f.write(body+"\n")
+            f.write(body.decode('utf-8')+"\n")
 
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
