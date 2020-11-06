@@ -1,5 +1,5 @@
 # Live demo
-https://redux-bubble-tea.herokuapp.com/tea
+https://redux-bubble-tea.herokuapp.com
 
 # About The Project
 This proejct consists of these parts:
